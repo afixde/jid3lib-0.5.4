@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="test"/>
+	<classpathentry exported="true" kind="lib" path="dist/jid3lib-0.5.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/aelfred-1.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/emma_ant.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/emma.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jaxp-1.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jsch-0.1.25.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/junit.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/log4j-1.2.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/oro-2.0.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/sax-2.0.1.jar"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry exported="true" kind="lib" path="lib/jdom.jar" sourcepath="lib/openlogic-jdom-1.1-all-src-1.zip"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="output" path="classes"/>
+</classpath>

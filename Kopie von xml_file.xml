@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MsCreater>
+				<NumberOfAisle>6</NumberOfAisle>
+				<NumberOfLevel>10</NumberOfLevel>
+				<NumberOfXCoord>78</NumberOfXCoord>
+				<BinDepth>1</BinDepth>
+				<MsLevel columns="Col:mtsId;levelId;facilityId;areaId;groupId;subgrId;plcNodeId;plcUnitId" block = "DataBlock=TsMsLevel; execute=true; modus=insert"/>
+				<MsLift columns="Col:mtsId;liftId;liftType;locId;plcNodeId;plcUnitId" block = "DataBlock=TsMsLift; execute=true; modus=insert"/>
+				<MsRack columns="Col:mtsId;levelId;liftId;locId;plcNodeId;plcUnitId" block = "DataBlock=TsMsRack; execute=true; modus=insert"/>
+				<MsShuttle columns="Col:mtsId;numShuttles;layoutType;twoStepIn;twoStepOut;locIdDd" block = "DataBlock=TsMsMultishuttle; execute=true; modus=insert"/>
+				<MsDropStation columns="Col:locId;locIdLevel;facilityId;areaId" block = "DataBlock=TsMsLnDropStation; execute=true; modus=insert"/>
+				<MsDropLevel columns="Col:locId;status;clearingStep;iosName;holdPeriod" block = "DataBlock=TsMsDropLevel; execute=true; modus=insert"/>
+				<MsQueue columns="Col:facilityId;areaId;locIdLevel;procOrder;sortMode;sortIrregular;numActItemsGroup;msGroup;msSequence;msGroupId;minMsGroupId;maxMsGroupId;msGroupPrefix" block = "DataBlock=TsMsQueue; execute=true; modus=insert"/>
+				<MsQueueDest columns="Col:targetId;maxHostGroups;maxHostUnits;lastHostGroup;lastHostSequence" block = "DataBlock=TsMsQueueDest; execute=true; modus=insert"/>
+				<MsLevelTarget columns="Col:targetId;targetNo;locIdLevel;locIdGd;channel" block = "DataBlock=TsMsLnLevelTarget; execute=true; modus=insert"/>
+				<MsSortSeq columns="Col:targetId;sortId;sortSeq;sortPlcseq;sortInfo;reqSortPlcseq;sortPlcseqMax;sortPlcseqSize" block = "DataBlock=TsMsSortSeq; execute=true; modus=insert"/>
+				<Mts columns="Col:groupId;mtsId;mtstypId;lockStat;comSubsys;destNode;destService;msgmgrName;description" block = "DataBlock=TsMts; execute=true; modus=insert"/>
+				<Ios columns="Col:iosName;iosRef;iosType;description;iosGroup;statflag" block="DataBlock=WmIos     ;execute=true ;modus=store"/>
+				<IosRef columns="Col:iosRef;iosName" block="DataBlock=WmIosRef 		;execute=true	;modus=store"/>
+				<Loc columns="Col:locId;locType;isStartpoint;isEndpoint;tpType;capacity;destNode;coorPlc;description" block = "DataBlock=Loc ;execute=true    ;modus=insert"/>
+				<Logp columns="Col:locId;locName;capacity;type;globalDest;resolveMore;iosName;locgroup" block = "DataBlock=WmLogp    ;execute=true ;modus=insert"/>
+				<Final columns="Col:source;destination;connector;iosName ;allocated" block = "DataBlock=WmFinal   ;execute=true       ;modus=insert"/>
+				<Asel columns="Col:locName;facilityId;areaId;groupId;subgrId;pickupName;iosName" block = "DataBlock=WmAsel   ;execute=true       ;modus=insert"/>
+				<Leg columns="Col:description;locIdS;locIdD;comSubsys;capacity;mtsId;destService;plcNodeId;plcUnitId;locIdGd;priority;checknextStat;gdPlcNodeId;gdPlcUnitId" block = "DataBlock=Leg   ;execute=true       ;modus=insert"/>
+				<Group columns="Col:groupId;description;groupType;lockStat;throughpassFlag" block = "DataBlock=TsGroup ; execute=true; modus=insert"/>
+				<SubGroup columns="Col:subgrId;description;lockStat" block = "DataBlock=TsSubGroup ; execute=true; modus=insert"/>
+				<Bin columns="Col:aisle;left;right;depth;xStart;xEnd;yStart;yEnd;mPos;velo;cap;height;weight;mtsId" block="DataBlock=Bin; execute=true; modus=insert"/>
+  				<TransportLocation id="0001.MC.gg.ss.0"/>
+				<BinLocation id="0001.MS.gg.ss.0"/>
+				<RackInbound id="0001.MC.gg.ss.MC_ggssRC20"/>
+				<RackOutbound id="0001.MC.gg.ss.MC_ggssRC10"/>
+				<Dispatch id="0001.LOOP.LOOU.01.DPKLU"/>
+				<Multishuttle id="MC_ggssMS00"/>
+				<NodeId id="MSC0gg"/>
+				<LiftOutbound id="0001.MC.gg.ss.MC_ggssLI20"/>
+				<LiftInbound id="0001.MC.gg.ss.MC_ggssLI10"/>
+				<InboundList>
+					<Inbound id="0001.MC.gg.01.MC_gg01PS20"/>
+					<Inbound id="0001.MC.gg.02.MC_gg02PS20"/>
+				</InboundList>
+				<OutboundList>	
+					<Outbound id="0001.MC.gg.01.MC_gg01DS10" reject="0001.LOOP.LOOU.01.DPNIOLO" level="0001.MC.01.01.MC_0001DL00" node="GS1201" plcCoor="121399"/>
+					<Outbound id="0001.MC.gg.02.MC_gg02DS10" reject="0001.LOOP.LOOU.01.DPNIOLU" level="0001.MC.01.02.MC_0002DL00" node="GS1301" plcCoor="131399"/>
+					<Outbound id="0001.MC.gg.03.MC_gg03DS10" reject="0001.BK10.PALL.01.PALBEH" level="0001.MC.01.03.MC_0003DL00" node="GS1401" plcCoor="140999"/>
+				</OutboundList>	
+				<QueueSortList>	
+					<QueueSort procno="1" level="0001.MC.01.01.MC_0001DL00" queueMode="PICK"   actItems="1" minNum="1000000001" maxNum="9999999999" msGroupPrefix="MA" holdPeriod="3600"/>
+					<QueueSort procno="1" level="0001.MC.01.02.MC_0002DL00" queueMode="PICK"   actItems="1" minNum="1000000001" maxNum="9999999999" msGroupPrefix="MB" holdPeriod="3600"/>
+					<QueueSort procno="2" level="0001.MC.01.03.MC_0003DL00" queueMode="SERIAL" actItems="1" minNum="1000000001" maxNum="9999999999" msGroupPrefix="MC" holdPeriod="3600"/>
+				</QueueSortList>	                                                                                                                                  
+				<TargetList>	
+					<Target id="KOM1O" level="0001.MC.01.01.MC_0001DL00" dest="0001.KOMM.LOOO.KOM1.CPP1" channel="" sortId="" plcSortMax="-1" plcSortSize="-1" maxHostGrp="2"  maxHostItems="20"/>
+					<Target id="KOM1U" level="0001.MC.01.02.MC_0002DL00" dest="0001.KOMM.LOOU.KOM1.CPD1" channel="" sortId="" plcSortMax="-1" plcSortSize="-1" maxHostGrp="2"  maxHostItems="20"/>
+					<Target id="KOM2O" level="0001.MC.01.01.MC_0001DL00" dest="0001.KOMM.LOOO.KOM2.CPP2" channel="" sortId="" plcSortMax="-1" plcSortSize="-1" maxHostGrp="2"  maxHostItems="20"/>
+					<Target id="KOM2U" level="0001.MC.01.02.MC_0002DL00" dest="0001.KOMM.LOOU.KOM2.CPD2" channel="" sortId="" plcSortMax="-1" plcSortSize="-1" maxHostGrp="2"  maxHostItems="20"/>
+					<Target id="KOM3O" level="0001.MC.01.01.MC_0001DL00" dest="0001.KOMM.LOOO.KOM3.CPP2" channel="" sortId="" plcSortMax="-1" plcSortSize="-1" maxHostGrp="2"  maxHostItems="20"/>
+					<Target id="KOM3U" level="0001.MC.01.02.MC_0002DL00" dest="0001.KOMM.LOOU.KOM3.CPD2" channel="" sortId="" plcSortMax="-1" plcSortSize="-1" maxHostGrp="2"  maxHostItems="20"/>
+					<Target id="KOM4O" level="0001.MC.01.01.MC_0001DL00" dest="0001.KOMM.LOOO.KOM4.CPP2" channel="" sortId="" plcSortMax="-1" plcSortSize="-1" maxHostGrp="2"  maxHostItems="20"/>
+					<Target id="KOM4U" level="0001.MC.01.02.MC_0002DL00" dest="0001.KOMM.LOOU.KOM4.CPD2" channel="" sortId="" plcSortMax="-1" plcSortSize="-1" maxHostGrp="2"  maxHostItems="20"/>
+					<Target id="KOM5O" level="0001.MC.01.01.MC_0001DL00" dest="0001.KOMM.LOOO.KOM5.CPP2" channel="" sortId="" plcSortMax="-1" plcSortSize="-1" maxHostGrp="2"  maxHostItems="20"/>
+					<Target id="KOM5U" level="0001.MC.01.02.MC_0002DL00" dest="0001.KOMM.LOOU.KOM5.CPD2" channel="" sortId="" plcSortMax="-1" plcSortSize="-1" maxHostGrp="2"  maxHostItems="20"/>
+					<Target id="KOM6O" level="0001.MC.01.01.MC_0001DL00" dest="0001.KOMM.LOOO.KOM6.CPP2" channel="" sortId="" plcSortMax="-1" plcSortSize="-1" maxHostGrp="2"  maxHostItems="20"/>
+					<Target id="KOM6U" level="0001.MC.01.02.MC_0002DL00" dest="0001.KOMM.LOOU.KOM6.CPD2" channel="" sortId="" plcSortMax="-1" plcSortSize="-1" maxHostGrp="2"  maxHostItems="20"/>
+					<Target id="WA"    level="0001.MC.01.03.MC_0003DL00" dest="0001.BK10.PALL.01.DPSTPBEH" channel="" sortId="03DL00" plcSortMax="9999" plcSortSize="1" maxHostGrp="2"  maxHostItems="50"/>
+					<Target id="NIOLO" level="0001.MC.01.01.MC_0001DL00" dest="0001.LOOP.LOOO.01.NIOLO" channel="" sortId="" plcSortMax="-1" plcSortSize="-1" maxHostGrp="2"  maxHostItems="20"/>
+					<Target id="NIOLU" level="0001.MC.01.02.MC_0002DL00" dest="0001.LOOP.LOOU.01.NIOLU" channel="" sortId="" plcSortMax="-1" plcSortSize="-1" maxHostGrp="2"  maxHostItems="20"/>
+				</TargetList>	
+</MsCreater>                                                                                                                                                          

@@ -1,0 +1,41 @@
+Usage: FileConvert [-t title] [-i interpret] [-y year] [-n trackno] [-a album]
+                   [-g genre] [-@ default profile}
+                   [--fc filenamecase: u(pper)/l(ower)/c(capitalized)
+                   [-x execute new file] dir/file
+  set one or more specified tags (3v2.4) for specified mp3 file
+                and convert the files and the tags into latin char set
+  i.e. FileConvert -t "Song name" -i "Interpret" file.mp3
+  i.e. FileConvert -@ file.mp3
+  i.e. FileConvert -x file.mp3
+                 - create new file, convert by default UTF-16
+  i.e. FileConvert c:\music -n "@@@" -t @ -i @ -a @ -y 2008 -g Pop -x --fc c
+                 - create new file from directory c:\music
+                 - track/title/interpret/album extract from file name:
+                         examples for default contents:
+                         001. Sergej Minaev - Gimn Diskoteki 80-kh
+                         001 - Sergej Minaev - Gimn Diskoteki 80-kh
+                         001_Sergej Minaev - Gimn Diskoteki 80-kh
+                         NNN IIIIIIIIIIIII   TTTTTTTTTTTTTTTTTTTT
+                         N - track No.
+                         I - Interpret
+                         T - song Title
+                 - file name in capitalized case, i.e:
+                         DIMA BILAN -> Dima Bilan
+
+
+
+
+Beispiele:
+
+U:\Musik\Download\russian_mus_dwn\sojuz-novogodnij-2008> D:\Java\workspace\jid3li
+b-0.5.4\bin\FileConvert.cmd Sojuz-novogodnij-2008 -n "@@@" -y 2008  -g  Pop -t @
+ -i @ -a @ -x --fc c
+
+"j:\studio\musik\2010\ClubMuzicRu2" -n @@@ -a "Club Music Ru 2" -t @ -i @ -g Pop 
+-y 2010 -ci "Cp850" -co "Cp866" -x
+
+f:\Java\workspace\jid3lib-0.5.4\bin>fileconvert "f:\studio\musik\2011\ImpSHans"  -g Chanson -f "f:\studio\musik\2011\ImpSHans\al
+bum.txt" -c utf8 -y 2011 -n @@@
+
+f:\Java\workspace\jid3lib-0.5.4\bin>fileconvert "f:\studio\musik\2011\ImpSHans"  -@
+	default profile = -t @ -i @ -n @@ -a @ -g Pop 

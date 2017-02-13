@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FileConvert>
+    <OptionsList>	
+        <Options id="opt1" trackNo="@" artist="@" title="@" ci="Cp1251" ch="Cp1252"/>
+        <Options id="opt2" trackNo="@" artist="@" title="@" ci="Cp850" ch="Cp866"/>
+        <Options id="opt3" trackNo="@" artist="@" title="@" ci="UTF8" ch="UTF8"/>
+    </OptionsList>	
+</FileConvert>                                                                                                                                                          
