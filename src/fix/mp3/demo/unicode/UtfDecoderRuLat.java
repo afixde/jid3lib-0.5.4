@@ -408,7 +408,7 @@ public class UtfDecoderRuLat {
 
 		// List<String> dirList =
 		// getDirList("v:/Studio/Usb_003/01.Pop/Pop-06.1");
-		List<String> dirList = getDirList("d:/Studio/Musik/_Stream/Audials/Work/ru");
+		List<String> dirList = getDirList("d:/Studio/Musik/_Stream/Audials/_process/ru/kyr");
 		for (String dir : dirList) {
 			int count = processTagsForDirectory(dir);
 			System.out.println(dir + (count == 0 ? "" : ": (" + count + " files)"));
