@@ -172,6 +172,7 @@ public class FileConvert {
 		String charSetIn = "Cp1251";
 		String charSet = "Cp1252";
 		String charSetId = "Cp1252";
+		boolean nomp3tags = false;
 		boolean newfile = false;
 		boolean withint = true; // file name includes interpret
 		boolean withtrk = true; // file name includes track no.
@@ -192,6 +193,8 @@ public class FileConvert {
 				fromFileStr.substring(0, fromFileStr.length() - 1);
 		}
 		// boolean values:
+		if ("true".equals(getOption("NoMp3Tags")))
+			nomp3tags = true;
 		if ("true".equals(getOption("NewFile")))
 			newfile = true;
 		if ("false".equals(getOption("WithInterpret")))
@@ -505,7 +508,7 @@ public class FileConvert {
 						// }
 						System.out.println("   ->>> copy " + fromFileName + " -> " + toFileName);
 						File toFile = copyFile(fromFileName, toFileName);
-						if (toFile != null) {
+						if (toFile != null && !nomp3tags) {
 							MP3 mp3 = new MP3(toFileName);
 							// String title =
 							// AnsiDecoder.decodeRuLatEntities(mp3.getTitle(),
@@ -541,7 +544,7 @@ public class FileConvert {
 								mp3.setYear(filTags.Year);
 							if (filTags.TrackNo != null)
 								mp3.setTrackno(filTags.TrackNo);
-						} else {
+						} else if (toFile == null) {
 							// TODO: handle exception
 							System.out.println(" ERROR: cannot access for update the mp3 tags for: " + toFileName);
 						}
@@ -916,6 +919,16 @@ public class FileConvert {
 					option = "CharSetId";
 				} else if ("-x".equals(arg)) {
 					option = "NewFile";
+					if (!putOption(option, "true")) {
+						System.out.println("ERROR: value for option: " + option + " already exists!");
+						System.out.println(usage);
+						System.exit(1);
+					} else {
+						// option complete
+						option = null;
+					}
+				} else if ("-no".equals(arg)) {
+					option = "NoMp3Tags";
 					if (!putOption(option, "true")) {
 						System.out.println("ERROR: value for option: " + option + " already exists!");
 						System.out.println(usage);

@@ -6,6 +6,16 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.attribute.BasicFileAttributeView;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.attribute.FileTime;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Hashtable;
@@ -415,9 +425,22 @@ public class UtfDecoder {
 		return dirList;
 	}
 
-	public static List<String> getFileList(String fromDirStr) throws FileNotFoundException {
+	public static List<String> getFileList(String fromDirStr, String date) throws FileNotFoundException {
 		File file = new java.io.File(fromDirStr);
 		List<String> fileList = new ArrayList<String>();
+
+		long milis = 0;
+		FileTime dateBefore = null;
+		try {
+			if (date != null) {
+				milis = new SimpleDateFormat("dd.MM.yyyy hh:mm:ss").parse(date).getTime();
+				dateBefore = FileTime.fromMillis(milis);
+			}
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
 		if (file.isDirectory()) {
 			File[] files = file.listFiles();
 			for (File fil : files) {
@@ -425,7 +448,23 @@ public class UtfDecoder {
 					continue;
 				if (!fil.getName().toLowerCase().endsWith(".mp3"))
 					continue;
+
+				if (dateBefore != null) {
+					Path p = Paths.get(fil.getAbsolutePath());
+					try {
+						BasicFileAttributes view = Files.getFileAttributeView(p, BasicFileAttributeView.class)
+								.readAttributes();
+						if (view.creationTime().toMillis() > dateBefore.toMillis()) {
+							continue;
+						}
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
 				fileList.add(purgeFileName(fil.getName()));
+
 			}
 		} else if (file.isFile()) {
 			fileList.add(purgeFileName(file.getName()));
@@ -448,15 +487,20 @@ public class UtfDecoder {
 		return name.substring(0, name.length() - FILEXT.length());
 	}
 
-	public static int processTagsForDirectory(String fromDirStr) throws FileNotFoundException, IOException {
+	public static int processTagsForDirectory(String fromDirStr, List<String> fileListLat)
+			throws FileNotFoundException, IOException {
+		return processTagsForDirectory(UTF8_BOM, fileListLat, null);
+	}
+	
+	public static int processTagsForDirectory(String fromDirStr, List<String> fileListLat, String filePrefix)
+			throws FileNotFoundException, IOException {
 		String charSet = StandardCharsets.UTF_8.name();
-		String fileLat = fromDirStr + "/" + "tag_lat.txt";
-		String fileRu = fromDirStr + "/" + "tag_ru.txt";
-
-		List<String> fileListLat = getFileList(fromDirStr);
-		if (fileListLat.isEmpty()) {
-			return 0;
+		if (filePrefix == null) {
+			filePrefix = "tag";
 		}
+		String fileLat = fromDirStr + "/" + filePrefix + "_lat.txt";
+		String fileRu = fromDirStr + "/" + filePrefix + "_ru.txt";
+
 		writeFile(fileLat, fileListLat, charSet);
 
 		List<String> fileListRu = new ArrayList<>();
@@ -468,14 +512,46 @@ public class UtfDecoder {
 		return fileListLat.size();
 	}
 
+	@SuppressWarnings("unused")
 	public static void main(String[] args) throws IOException {
 
 		// List<String> dirList =
 		// getDirList("v:/Studio/Usb_003/01.Pop/Pop-06.1");
-		List<String> dirList = getDirList("d:/Studio/Musik/_Stream/Audials/_process/ru");
-		for (String dir : dirList) {
-			int count = processTagsForDirectory(dir);
-			System.out.println(dir + (count == 0 ? "" : ": (" + count + " files)"));
+		// List<String> dirList =
+		// getDirList("d:/Studio/Musik/_Stream/Audials/_process/ru");
+		boolean branch = true;
+		String dateBefore = "19.02.2017 00:00:00";
+//		String dirStart = "d:/Studio/Musik/_Stream/Audials/_process/ru/kyr";
+		String dirStart = "r:/Musik/_Stream/Audials/Audials Recorded Music";
+		List<String> dirList = getDirList(dirStart);
+		if (!branch) {
+			for (String dir : dirList) {
+				List<String> fileListLat = getFileList(dir, dateBefore);
+				if (fileListLat.isEmpty()) {
+					continue;
+				}
+				int count = processTagsForDirectory(dir, fileListLat);
+				System.out.println(dir + (count == 0 ? "" : ": (" + count + " files)"));
+			}
+		}
+		else {
+			List<String> dirListBranche = new ArrayList<>();
+			if (dateBefore != null) {
+				dirListBranche.add(dateBefore);
+			} else {
+				LocalDate localDate = LocalDate.now();
+				String ld = DateTimeFormatter.ofPattern("dd.MM.yyyy hh:mm:ss").format(localDate);
+				dirListBranche.add(ld);
+			}
+			for (String dir : dirList) {
+				List<String> fileListLat = getFileList(dir, dateBefore);
+				if (fileListLat.isEmpty()) {
+					continue;
+				}
+				dirListBranche.addAll(fileListLat);
+			}
+			int count = processTagsForDirectory(dirStart, dirListBranche, "reclist");
+			System.out.println(dirStart + (count == 0 ? "" : ": (" + count + " files)"));
 		}
 	}
 

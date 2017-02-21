@@ -19,7 +19,7 @@ public class UtfDecoderTest extends TestCase {
 	@Test
 	public void testFileList() throws FileNotFoundException {
 		String fromDirStr = "d:/Studio/Musik/_Stream/Audials/Work/ru";
-		List<String> fileList = UtfDecoder.getFileList(fromDirStr);
+		List<String> fileList = UtfDecoder.getFileList(fromDirStr, null);
 		for (String line : fileList) {
 			System.out.println(line);
 		}
