@@ -15,5 +15,6 @@
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="lib" path="lib/jdom.jar" sourcepath="lib/openlogic-jdom-1.1-all-src-1.zip"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="lib/google-api-translate-java-1.0.0.jar"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>
